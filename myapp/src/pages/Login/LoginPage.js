@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 // custom components
@@ -7,7 +7,7 @@ import Loading from "../../components/Loading";
 import { createToast, ToastPopup } from "../../components/ToastPopup";
 
 // users data file
-import usersData from "../../data/user.json";
+import userData from "../../data/user.json";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -33,24 +33,17 @@ const LoginPage = () => {
     } else return true;
   }, [username, password]);
 
-  const findUser = useMemo(
-    () =>
-      usersData.find(
-        (user) => user.username === username && user.password === password
-      ),
-    [username, password]
-  );
-
   const login = useCallback(
     (event) => {
       try {
         event.preventDefault();
 
         if (!dataValidate()) return;
-
         setLoading(true);
-
-        const isUser = findUser;
+        const isUser =
+          userData.username === username && userData.password === password
+            ? userData
+            : null;
 
         if (isUser) {
           createToast("Login Successful!");
@@ -69,14 +62,14 @@ const LoginPage = () => {
         }, 1200);
       }
     },
-    [dataValidate, findUser, navigate]
+    [dataValidate, username, password, navigate]
   );
 
   return (
     <>
       <ToastPopup />
       <div className="relative flex items-center justify-center h-screen bg-violet-100">
-        {loading && <Loading isloading={loading} />}
+        {loading && <Loading isloading={true} />}
 
         <div className="flex-col items-center p-24 rounded-lg bg-violet-200 drop-shadow-md filter">
           <h1 className="pb-5 text-4xl font-semibold text-center md:text-5xl text-violet-600">
