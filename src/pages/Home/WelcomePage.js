@@ -12,6 +12,7 @@ const WelcomePage = () => {
 
   const handleLogout = () => {
     Cookies.remove("loggedIn");
+    Cookies.remove("username");
     navigate("/", { replace: true });
   };
 
