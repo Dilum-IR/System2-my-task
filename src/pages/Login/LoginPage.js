@@ -1,13 +1,14 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 // custom components
 import InputField from "../../components/InputField";
+import Button from "../../components/Button";
 import Loading from "../../components/Loading";
 import { createToast, ToastPopup } from "../../components/ToastPopup";
-
-// users data file
-import userData from "../../data/user.json";
+import { LOGIN_URL } from "../../api/ApiConfig";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -34,32 +35,33 @@ const LoginPage = () => {
   }, [username, password]);
 
   const login = useCallback(
-    (event) => {
+    async (event) => {
       try {
         event.preventDefault();
 
         if (!dataValidate()) return;
         setLoading(true);
-        const isUser =
-          userData.username === username && userData.password === password
-            ? userData
-            : null;
+        const reqBody = {
+          username,
+          password,
+        };
+        const res = await axios.post(LOGIN_URL, reqBody);
 
-        if (isUser) {
-          createToast("Login Successful!");
+        if (res.status) {
+          createToast(res.data.message);
+          Cookies.set("loggedIn", "true", { expires: 7 });
+          Cookies.set("username", res.data.data, { expires: 7 });
 
           setTimeout(() => {
-            navigate("/user", { state: { username: isUser.username } });
-          }, 1200);
-        } else {
-          createToast("Invalid username or password!", 0);
+            navigate("/user");
+          }, 500);
         }
       } catch (error) {
         console.error(error);
+        if (error.code === "ERR_NETWORK") return createToast(error.message, 0);
+        createToast(error.response.data.message, 0);
       } finally {
-        setTimeout(() => {
-          setLoading(false);
-        }, 1200);
+        setLoading(false);
       }
     },
     [dataValidate, username, password, navigate]
@@ -91,12 +93,7 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               error={passwordError}
             />
-            <button
-              type="submit"
-              className="w-full py-4 mt-5 mb-2 text-xl text-white bg-purple-700 rounded-lg focus:outline-none hover:bg-purple-600"
-            >
-              Login
-            </button>
+            <Button label="Login" type="submit" />
           </form>
         </div>
       </div>
