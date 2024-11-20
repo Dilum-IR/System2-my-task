@@ -1,7 +1,8 @@
-import { Route, Routes } from "react-router-dom";
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-import WelcomePage from "../pages/Home/WelcomePage";
-import ErrorPage from "../pages/Error/ErrorPage";
+import WelcomePage from '../pages/Home/WelcomePage';
+import ErrorPage from '../pages/Error/ErrorPage';
 
 const UserRoutes = () => (
   <Routes>
