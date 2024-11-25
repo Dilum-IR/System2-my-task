@@ -30,7 +30,7 @@ const WelcomePage = () => {
           type="text"
           onChange={(e) => setUserInput(e.target.value)}
         />
-        {userInput && (
+        {!!userInput && (
           <p className="mt-4 text-3xl text-violet-800">
             Hi,
             {userInput}
