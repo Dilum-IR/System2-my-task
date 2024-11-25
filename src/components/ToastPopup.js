@@ -1,5 +1,6 @@
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 /**
  * Function to trigger a toast notification.
@@ -17,14 +18,14 @@ import "react-toastify/dist/ReactToastify.css";
 export const createToast = (message, type = 1) => {
   // Configuration default settings for the toast notification.
   const attribute = {
-    position: "top-right",
+    position: 'top-right',
     autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "dark",
+    theme: 'dark',
   };
 
   switch (type) {
@@ -46,19 +47,17 @@ export const createToast = (message, type = 1) => {
  * @returns {JSX.Element} ToastContainer - The container to manage toast notifications.
  */
 
-export const ToastPopup = () => {
-  return (
-    <ToastContainer
-      position="top-right"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="dark"
-    />
-  );
-};
+export const ToastPopup = () => (
+  <ToastContainer
+    position="top-right"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="dark"
+  />
+);

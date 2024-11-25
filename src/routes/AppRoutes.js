@@ -1,22 +1,18 @@
-import { Route, Routes } from "react-router-dom";
-import Cookies from "js-cookie";
-import { Navigate } from "react-router-dom";
+import React from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
-import ErrorPage from "../pages/Error/ErrorPage";
-import LoginPage from "../pages/Login/LoginPage";
+import ErrorPage from '../pages/Error/ErrorPage';
+import LoginPage from '../pages/Login/LoginPage';
 
-import UserRoutes from "./UserRoutes";
-import ProtectRoute from "./ProtectRoute";
+import UserRoutes from './UserRoutes';
+import ProtectRoute from './ProtectRoute';
 
 const AppRoutes = () => {
-  const isLoggedIn = Cookies.get("loggedIn") === "true";
+  const isLoggedIn = Cookies.get('loggedIn') === 'true';
   return (
     <Routes>
-      <Route
-        exact
-        path="/"
-        element={isLoggedIn ? <Navigate to="/user" /> : <LoginPage />}
-      />
+      <Route exact path="/" element={isLoggedIn ? <Navigate to="/user" /> : <LoginPage />} />
       {/* Role-based routes */}
       <Route
         path="/user/*"
